@@ -7,5 +7,7 @@
 # - periscope
 #
 
-find /share/Qmultimedia/video/ \( -name *.avi -o -name *.mkv -o -name *.mov -o -name *.mp4 \) -follow -type f -mtime 2 | grep -v lt
+DESTINATION="/share/Qmultimedia/video/"
+
+find $DESTINATION \( -name *.avi -o -name *.mkv -o -name *.mov -o -name *.mp4 \) -type f | grep -v 'sample' | xargs periscope -l en -l lt
 
