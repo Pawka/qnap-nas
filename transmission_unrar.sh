@@ -24,8 +24,12 @@ function log {
   echo $LINE >> $LOGFILE
 }
 
-# Find all RARs in working directory.
+# Backup space symbol
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
 log "Starting job"
+# Find all RARs in working directory.
 for MYRAR in `find "$SOURCE" -name *.rar`
 do
    # Check if it's been decompressed before
@@ -43,6 +47,7 @@ do
       FOLDERNAME=`echo "${MYRAR:${#SOURCE}}"`
       FOLDERNAME=`echo $FOLDERNAME | sed 's:/.*::'`
       FINALADDRESS=$DESTINATION$FOLDERNAME
+
       # Create directory only if it does not exist.
       if [ ! -d "$FINALADDRESS" ]; then
         mkdir $FINALADDRESS
@@ -51,6 +56,8 @@ do
    fi
 done
 
+# Restore space symbol
+IFS=$SAVEIFS
+
 log "Job ended"
 exit
-
