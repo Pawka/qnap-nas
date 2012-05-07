@@ -45,7 +45,7 @@ do
       
       log "Decompressing $MYRAR"
       FOLDERNAME=`echo "${MYRAR:${#SOURCE}}"`
-      FOLDERNAME=`echo $FOLDERNAME | sed 's:/.*::'`
+      FOLDERNAME=`echo $FOLDERNAME | sed 's:[^/]*$::'`
       FINALADDRESS=$DESTINATION$FOLDERNAME
 
       # Create directory only if it does not exist.
