@@ -5,17 +5,26 @@
 
 SOURCE="/share/Qmultimedia/video/"
 DESTINATION="/share/Qmultimedia/video/"
-LIST="/share/Qdownload/transmission/extracted.txt"
+
+# Data dir
+DATADIR="`dirname $0`/data"
+LIST="$DATADIR/extracted.txt"
 
 # Log dir
 LOGDIR="`dirname $0`/log"
 LOGFILE="${LOGDIR}/`basename $0`.log"
 
-# Create logs directory if it does not exist.
-if [ ! -d "$LOGDIR" ]; then
-  echo "Creating log dir: ${LOGDIR}"
-  mkdir $LOGDIR
-fi
+
+# Create required directories if does not exist.
+DIRECTORIES=($DATADIR $LOGDIR)
+for DIR in ${DIRECTORIES[*]}
+do
+    if [ ! -d "$DIR" ]; then
+      echo "Creating dir: $DIR"
+      mkdir -p $DIR
+    fi
+done
+
 
 # Log content to log file
 function log {
