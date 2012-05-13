@@ -2,12 +2,20 @@
 #
 # Download subtitles for movies.
 #
+# Usage: subtitles.sh <path|file>
+#
 # Requirements:
 # - BusyBox v1.10.3
 # - periscope
 #
 
-DESTINATION="/share/Qmultimedia/video/"
+DESTINATION=$1
+
+# Check if destination is provided
+if [[ -z "$DESTINATION" ]]; then
+    echo "Usage: `basename $0` <path|file>"
+    exit
+fi
 
 # Log dir
 LOGDIR="`dirname $0`/log"
