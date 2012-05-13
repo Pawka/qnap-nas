@@ -9,10 +9,10 @@
 # - periscope
 #
 
-DESTINATION=$1
+SOURCE=$1
 
-# Check if destination is provided
-if [[ -z "$DESTINATION" ]]; then
+# Check if SOURCE is provided
+if [[ -z "$SOURCE" ]]; then
     echo "Usage: `basename $0` <path|file>"
     exit
 fi
@@ -35,5 +35,13 @@ function log {
 }
 
 log "Starting job"
-find $DESTINATION \( -name *.avi -o -name *.mkv -o -name *.mov -o -name *.mp4 \) -type f | grep -v 'sample' | xargs periscope -l en -l lt
+if [[ -d $SOURCE ]]; then
+    log "Looking up for directory $SOURCE"
+    find $SOURCE \( -name *.avi -o -name *.mkv -o -name *.mov -o -name *.mp4 \) -type f | grep -v 'sample' | xargs periscope -l en -l lt
+elif [[ -f $SOURCE ]]; then
+    log "Looking up for file $SOURCE"
+    periscope -l en -l lt $SOURCE
+else
+    log "File/path not found: $SOURCE"
+fi
 
