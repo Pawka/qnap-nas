@@ -14,3 +14,5 @@ ipkg install findutils
 ipkg install grep
 
 ipkg upgrade
+
+ln -s /opt/local/bin/periscope /opt/bin/periscope
