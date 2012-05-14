@@ -10,4 +10,7 @@ ipkg install unrar
 ipkg install python27
 ipkg install svn
 ipkg install git
+ipkg install findutils
+ipkg install grep
 
+ipkg upgrade
