@@ -12,4 +12,4 @@ Copy settings.example.sh to settings.sh and configure values inside.
 
 ##Tools
 In tools directory are stored scripts for client computers to work with NAS.
-* mount_nfs.sh - Mount all public shares of NAS server.
+* mount.sh - Mount all public shares of NAS server via NFS.
