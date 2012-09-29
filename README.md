@@ -2,6 +2,9 @@
 
 Scripts and configs for my personal QNAP NAS server.
 
+#Install
+Copy settings.example.sh to settings.sh and configure values inside.
+
 ##Items
 * install.sh - Script to install required packages.
 * subtitles.sh - Download subtitles for movies with [periscope](http://code.google.com/p/periscope/) tool.
