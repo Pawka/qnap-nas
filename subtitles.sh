@@ -10,6 +10,7 @@
 #
 
 SOURCE=$1
+find=/opt/bin/find
 
 # Check if SOURCE is provided
 if [[ -z "$SOURCE" ]]; then
@@ -37,7 +38,7 @@ function log {
 log "Starting job"
 if [[ -d $SOURCE ]]; then
     log "Looking up for directory $SOURCE"
-    find $SOURCE \( -name "*.avi" -o -name "*.mkv" -o -name "*.mov" -o -name "*.mp4" \) -type f | grep -v 'sample' | xargs periscope -l en -l lt
+    $find $SOURCE \( -name "*.avi" -o -name "*.mkv" -o -name "*.mov" -o -name "*.mp4" \) ! -name "*sample*" -type f | xargs periscope -l en -l lt
 elif [[ -f $SOURCE ]]; then
     log "Looking up for file $SOURCE"
     periscope -l en -l lt $SOURCE
