@@ -13,7 +13,10 @@ function getMountedDirs {
 }
 
 function getAvailableDirs {
-    echo `showmount -e ${_SERVER} | egrep "^/[A-Za-z ]+$" -o`
+    ping -c 2 ${_SERVER} > /dev/null
+    if [[ $? -eq 0 ]]; then
+        echo `showmount -e ${_SERVER} | egrep "^/[A-Za-z ]+$" -o`
+    fi
 }
 
 function getUnmountedDirs {
@@ -28,20 +31,27 @@ function getUnmountedDirs {
 }
 
 function cleanUnmountedDirs {
-    find $_MOUNTDIR -maxdepth 1 -empty -type d -exec rmdir {} \;
+    # Check if at all mount directory exits.
+    if [ -d $_MOUNTDIR ]; then
+        find $_MOUNTDIR -maxdepth 1 -empty -type d -exec rmdir {} \;
 
-    # Remove mount directory if nothing is mounted.
-    if [[ 0 -eq `ls -1 $_MOUNTDIR | wc -l` ]]; then
-        rmdir $_MOUNTDIR
+        # Remove mount directory if nothing is mounted.
+        if [[ 0 -eq `ls -1 $_MOUNTDIR | wc -l` ]]; then
+            rmdir $_MOUNTDIR
+        fi
     fi
 }
 
-for SHARE in `getAvailableDirs`
-do
-    DIR=`echo ${_MOUNTDIR}$SHARE`
-    if [ ! -f "$DIR" ]; then
-        mkdir -p $DIR
-    fi
-    sudo mount ${_SERVER}:${SHARE} $DIR
-done
+AVAILABLE_DIRS=`getAvailableDirs`
+# If mount resources exist
+if [[ -n $AVAILABLE_DIRS ]]; then
+    for SHARE in $AVAILABLE_DIRS
+    do
+        DIR=`echo ${_MOUNTDIR}$SHARE`
+        if [ ! -f "$DIR" ]; then
+            mkdir -p $DIR
+        fi
+        sudo mount ${_SERVER}:${SHARE} $DIR
+    done
+fi
 cleanUnmountedDirs
