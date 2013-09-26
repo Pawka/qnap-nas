@@ -1,0 +1,27 @@
+#!/bin/bash
+# vim: ft=sh
+
+# Qnap tool
+
+HOST=admin@pawka.mycloudnas.com
+DIR_TRANSMISSION_WATCH=/share/Qdownload/transmission/watch
+
+# Upload torrent to watch dir.
+if [[ "$1" == "torrent" ]]; then
+
+    if [[ -f $2 ]]; then
+        scp $2 $HOST:$DIR_TRANSMISSION_WATCH
+        # echo "${2} uploaded to server"
+    else
+        echo $'Usage:\n  qnap torrent <filename>'
+    fi
+    
+else
+    echo $'QNAP Management Tool\n'
+    echo 'Usage:'
+    echo $'  qnap command [arguments]\n'
+
+    echo 'Available commands:'
+    echo $'  torrent \tUpload torrent for download.'
+fi
+
